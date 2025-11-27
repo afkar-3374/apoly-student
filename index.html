@@ -11,7 +11,7 @@
 <style>
 
 /* --------------------------------------------------
-   LOGO COLORS FROM YOUR IMAGE
+   BRAND COLORS FROM LOGO
 -------------------------------------------------- */
 :root {
   --blue-dark: #0E3A5D;
@@ -20,125 +20,113 @@
   --orange-light: #FFC66B;
   --bg: #F4F8FB;
   --text: #0B0E13;
-  --card-bg: rgba(255,255,255,0.75);
-  --glass-border: rgba(255,255,255,0.35);
+  --card-bg: rgba(255,255,255,0.85);
 }
 
 .dark {
   --bg: #0A0F18;
   --text: #E8E8E8;
-  --card-bg: rgba(14,25,40,0.6);
-  --glass-border: rgba(255,255,255,0.08);
+  --card-bg: rgba(14,25,40,0.7);
 }
 
 /* --------------------------------------------------
    GLOBAL
 -------------------------------------------------- */
 body {
-  background: var(--bg);
   margin: 0;
-  font-family: "Poppins", sans-serif;
+  background: var(--bg);
   color: var(--text);
+  font-family: "Poppins", sans-serif;
   transition: 0.3s ease;
 }
 
-img { user-select: none; }
-
-::-webkit-scrollbar { width: 6px; }
-::-webkit-scrollbar-thumb { background: var(--orange); border-radius: 10px; }
+* { box-sizing: border-box; }
 
 /* --------------------------------------------------
-   NAVBAR
+   HEADER (MOBILE-FRIENDLY)
 -------------------------------------------------- */
 .navbar {
   position: fixed;
   width: 100%;
   top: 0;
-  padding: 12px 25px;
+  padding: 12px 18px;
   display: flex;
   justify-content: space-between;
   align-items: center;
   background: var(--card-bg);
   backdrop-filter: blur(15px);
   border-bottom: 2px solid var(--orange);
-  z-index: 50;
+  z-index: 100;
 }
 
 .nav-left {
   display: flex;
   align-items: center;
+  gap: 10px;
 }
 
+/* circular logo */
 .logo {
-  height: 65px;
-  width: 65px;
+  height: 55px;
+  width: 55px;
   border-radius: 50%;
   object-fit: cover;
   background: white;
   padding: 3px;
 }
 
+/* Branding text hidden on small mobile */
 .brand {
   display: flex;
   flex-direction: column;
-  margin-left: 12px;
   line-height: 1.1;
 }
 
 .brand-main {
-  font-size: 24px;
+  font-size: 22px;
   font-weight: 800;
   color: var(--blue-dark);
 }
 
 .brand-sub {
-  font-size: 20px;
-  font-weight: 700;
+  font-size: 18px;
   color: var(--blue-mid);
 }
 
-.nav-right {
+/* ICONS ON RIGHT */
+.nav-icons {
   display: flex;
   align-items: center;
-  gap: 22px;
+  gap: 15px;
 }
 
-.nav-right a {
-  text-decoration: none;
-  font-weight: 600;
+.nav-icons i {
+  font-size: 22px;
   color: var(--blue-mid);
-  font-size: 16px;
+  cursor: pointer;
+  transition: 0.2s;
 }
 
-.nav-right a:hover {
+.nav-icons i:hover {
   color: var(--orange);
 }
 
-/* DARK MODE BUTTON */
 .dark-toggle {
-  padding: 8px 12px;
-  border-radius: 30px;
-  border: none;
-  background: var(--blue-mid);
-  color: white;
+  font-size: 20px;
   cursor: pointer;
-  font-size: 14px;
+  color: var(--orange);
 }
 
-.dark-toggle:hover { background: var(--blue-dark); }
-
 /* --------------------------------------------------
-   HERO SECTION
+   HERO (IMPROVED FOR MOBILE)
 -------------------------------------------------- */
 .hero {
+  padding: 110px 20px 40px;
   text-align: center;
-  padding-top: 130px;
-  padding-bottom: 40px;
-  position: relative;
 }
 
 .hero-title {
-  font-size: 48px;
+  font-size: 36px;
   font-weight: 900;
   color: var(--blue-dark);
 }
@@ -151,28 +139,31 @@ img { user-select: none; }
 @keyframes blink { 50% { border-color: transparent; } }
 
 .hero-sub {
-  font-size: 18px;
-  color: var(--blue-mid);
-  opacity: 0.9;
+  margin-top: 5px;
+  opacity: 0.8;
+  font-size: 16px;
 }
 
 /* --------------------------------------------------
-   SEMESTER BUTTONS
+   SEMESTER BUTTONS (BETTER MOBILE UI)
 -------------------------------------------------- */
 .sem-container {
-  margin: 20px auto;
-  text-align: center;
+  margin: 10px auto 20px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px;
+  padding: 0 15px;
 }
 
 .sem-btn {
+  padding: 8px 18px;
+  border-radius: 15px;
   background: var(--blue-mid);
-  border: none;
-  padding: 10px 20px;
   color: white;
-  border-radius: 25px;
-  margin: 5px;
+  border: none;
+  font-size: 14px;
   font-weight: 600;
-  cursor: pointer;
 }
 
 .sem-btn.active {
@@ -181,81 +172,48 @@ img { user-select: none; }
 }
 
 /* --------------------------------------------------
-   SUBJECT CARDS
+   SUPER CLEAN SUBJECT CARDS
 -------------------------------------------------- */
 .subjects {
-  padding: 30px;
+  padding: 10px 15px 60px;
   display: grid;
-  gap: 22px;
-  grid-template-columns: repeat(auto-fit,minmax(260px,1fr));
+  gap: 18px;
+  grid-template-columns: repeat(auto-fit,minmax(155px,1fr));
 }
 
 .card {
   background: var(--card-bg);
-  border: 2px solid var(--glass-border);
-  backdrop-filter: blur(20px);
-  border-radius: 18px;
+  padding: 15px;
+  border-radius: 15px;
   text-align: center;
-  padding: 25px;
-  box-shadow: 0 10px 25px rgba(14,58,93,0.15);
+  border: 2px solid rgba(0,0,0,0.05);
   transition: 0.25s;
 }
 
 .card:hover {
-  transform: translateY(-7px);
-  box-shadow: 0 12px 30px rgba(14,58,93,0.25);
+  transform: translateY(-5px);
 }
 
 .card i {
-  font-size: 30px;
+  font-size: 28px;
   color: var(--blue-mid);
-  margin-bottom: 10px;
+  margin-bottom: 6px;
 }
 
 .card h3 {
-  margin-top: 0;
+  margin: 5px 0;
+  font-size: 16px;
   color: var(--blue-dark);
 }
 
 .card button {
-  margin-top: 12px;
+  margin-top: 6px;
   background: var(--orange);
   border: none;
-  padding: 10px 20px;
-  color: black;
-  border-radius: 25px;
-  cursor: pointer;
-  font-weight: 700;
-}
-
-/* --------------------------------------------------
-   POPUP (COMING SOON)
--------------------------------------------------- */
-.popup {
-  position: fixed;
-  top: 50%; left: 50%;
-  transform: translate(-50%,-50%) scale(0);
-  opacity: 0;
-  background: var(--card-bg);
-  padding: 30px 45px;
-  border-radius: 18px;
-  border: 2px solid var(--orange);
-  backdrop-filter: blur(20px);
-  box-shadow: 0 8px 30px rgba(0,0,0,0.3);
-  transition: 0.25s ease;
-}
-
-.popup.active {
-  transform: translate(-50%,-50%) scale(1);
-  opacity: 1;
-}
-
-.popup button {
-  padding: 8px 20px;
-  border: none;
-  background: var(--blue-mid);
-  color: white;
-  border-radius: 20px;
+  padding: 7px 12px;
+  border-radius: 12px;
+  font-size: 13px;
+  font-weight: 600;
   cursor: pointer;
 }
 
@@ -264,26 +222,49 @@ img { user-select: none; }
 -------------------------------------------------- */
 .footer {
   text-align: center;
-  padding: 25px;
-  margin-top: 40px;
+  padding: 20px;
+  font-size: 14px;
   background: var(--card-bg);
   border-top: 2px solid var(--orange);
 }
 
-.footer i {
-  font-size: 20px;
-  margin: 0 10px;
-  color: var(--blue-mid);
+/* --------------------------------------------------
+   POPUP
+-------------------------------------------------- */
+.popup {
+  position: fixed;
+  top: 50%; left: 50%;
+  transform: translate(-50%,-50%) scale(0);
+  opacity: 0;
+  background: var(--card-bg);
+  padding: 20px 30px;
+  border: 2px solid var(--orange);
+  border-radius: 15px;
+  backdrop-filter: blur(12px);
+  transition: 0.25s ease;
+  z-index: 200;
 }
 
-.footer i:hover { color: var(--orange); }
+.popup.active {
+  transform: translate(-50%,-50%) scale(1);
+  opacity: 1;
+}
+
+.popup button {
+  background: var(--blue-mid);
+  border: none;
+  padding: 8px 18px;
+  border-radius: 20px;
+  color: white;
+  font-weight: 600;
+}
 
 </style>
 </head>
 
 <body>
 
-<!-- NAVBAR -->
+<!-- 🔵 NAVBAR -->
 <div class="navbar">
   <div class="nav-left">
     <img src="logo.png" class="logo">
@@ -293,21 +274,21 @@ img { user-select: none; }
     </div>
   </div>
 
-  <div class="nav-right">
-    <a href="http://afkar.curiosityweekends.org/">Portfolio</a>
-    <a href="https://youtube.com/@a_poly_student?si=XjTkWhVsm9XlHMOQ">YouTube</a>
-    <a href="https://www.instagram.com/a_poly_student._?igsh=MXZyZzZhNjhlbmR3cw==">Instagram</a>
-    <button class="dark-toggle" onclick="toggleDark()">🌙</button>
+  <div class="nav-icons">
+    <i class="fa-brands fa-youtube" onclick="openLink('https://youtube.com/@a_poly_student')"></i>
+    <i class="fa-brands fa-instagram" onclick="openLink('https://www.instagram.com/a_poly_student._/')"></i>
+    <i class="fa-solid fa-globe" onclick="openLink('http://afkar.curiosityweekends.org/')"></i>
+    <i class="fa-solid fa-moon dark-toggle" onclick="toggleDark()"></i>
   </div>
 </div>
 
-<!-- HERO -->
+<!-- 🔵 HERO -->
 <div class="hero">
   <div class="hero-title"><span id="typing"></span></div>
-  <div class="hero-sub">Engineering Notes • Polytechnic Resources • Study Materials</div>
+  <div class="hero-sub">Engineering Notes • S1 Materials • Polytechnic Study Hub</div>
 </div>
 
-<!-- SEM BUTTONS -->
+<!-- 🔵 SEMESTERS -->
 <div class="sem-container">
   <button class="sem-btn active">S1</button>
   <button class="sem-btn" onclick="comingSoon()">S2</button>
@@ -317,7 +298,7 @@ img { user-select: none; }
   <button class="sem-btn" onclick="comingSoon()">S6</button>
 </div>
 
-<!-- SUBJECTS -->
+<!-- 🔵 SUBJECT CARDS -->
 <div class="subjects">
 
   <div class="card">
@@ -364,57 +345,51 @@ img { user-select: none; }
 
   <div class="card">
     <i class="fas fa-desktop"></i>
-    <h3>IT Systems Lab</h3>
+    <h3>IT Lab</h3>
     <button onclick="downloadFile('itlab.zip')">Download</button>
   </div>
 
 </div>
 
-<!-- POPUP -->
-<div class="popup" id="popup">
-  <h2 style="margin:0;color:var(--blue-dark);">Coming Soon ⚙️</h2>
-  <p style="opacity:0.8;">Materials for this semester are being prepared.</p>
+<!-- COMING SOON POPUP -->
+<div id="popup" class="popup">
+  <h3 style="margin-top:0;">Coming Soon ⚙️</h3>
+  <p style="opacity:0.8;">Files for this section will be uploaded soon.</p>
   <button onclick="closePopup()">OK</button>
 </div>
 
-<!-- FOOTER -->
+<!-- 🔵 FOOTER -->
 <div class="footer">
-  <p>© 2025 A Poly Student • All Rights Reserved</p>
-  <div>
-    <a href="http://afkar.curiosityweekends.org/"><i class="fas fa-globe"></i></a>
-    <a href="https://youtube.com/@a_poly_student"><i class="fab fa-youtube"></i></a>
-    <a href="https://www.instagram.com/a_poly_student._/"><i class="fab fa-instagram"></i></a>
-  </div>
+  © 2025 A Poly Student • All Rights Reserved
 </div>
 
 <!-- JAVASCRIPT -->
 <script>
 
-/* CHECK FILE EXISTENCE BEFORE DOWNLOAD */
+/* Open links */
+function openLink(url){ window.open(url, "_blank"); }
+
+/* Dark mode */
+function toggleDark(){
+  document.body.classList.toggle("dark");
+}
+
+/* Coming soon popup */
+function comingSoon(){
+  document.getElementById("popup").classList.add("active");
+}
+function closePopup(){
+  document.getElementById("popup").classList.remove("active");
+}
+
+/* Download file with check */
 function downloadFile(name) {
     fetch("files/" + name, { method: "HEAD" })
-    .then(res => {
-        if (res.ok) {
-            window.location.href = "files/" + name;
-        } else {
-            comingSoon();
-        }
-    })
+    .then(res => res.ok ? window.location.href = "files/" + name : comingSoon())
     .catch(() => comingSoon());
 }
 
-/* DARK MODE */
-function toggleDark(){
-  document.body.classList.toggle("dark");
-  localStorage.theme = document.body.classList.contains("dark") ? "dark" : "light";
-}
-if(localStorage.theme === "dark"){ document.body.classList.add("dark"); }
-
-/* POPUP */
-function comingSoon(){ document.getElementById("popup").classList.add("active"); }
-function closePopup(){ document.getElementById("popup").classList.remove("active"); }
-
-/* TYPING EFFECT */
+/* Typing effect */
 const text = "A Poly Student";
 let i = 0;
 function typeEffect(){
