@@ -17,15 +17,15 @@
   --blue-dark: #0E3A5D;
   --blue-mid:  #2E86C1;
   --orange:    #F2A027;
-  --bg: #F4F8FB;
-  --text: #0B0E13;
-  --card-bg: rgba(255,255,255,0.85);
+  --bg: #0A0F18;          /* default dark background */
+  --text: #E8E8E8;
+  --card-bg: rgba(14,25,40,0.9);
 }
 
-.dark {
-  --bg: #0A0F18;
-  --text: #E8E8E8;
-  --card-bg: rgba(14,25,40,0.75);
+.light {
+  --bg: #F4F8FB;
+  --text: #0B0E13;
+  --card-bg: rgba(255,255,255,0.9);
 }
 
 /* GLOBAL */
@@ -38,6 +38,8 @@ body {
 }
 
 * { box-sizing: border-box; }
+
+a { color: inherit; }
 
 /* --------------------------------------------------
    NAVBAR
@@ -78,12 +80,12 @@ body {
 .brand-main {
   font-size: 22px;
   font-weight: 800;
-  color: var(--blue-dark);
+  color: var(--blue-mid);
 }
 
 .brand-sub {
   font-size: 18px;
-  color: var(--blue-mid);
+  color: var(--orange);
 }
 
 .nav-icons {
@@ -111,7 +113,7 @@ body {
 .hero-title {
   font-size: 40px;
   font-weight: 900;
-  color: var(--blue-dark);
+  color: var(--blue-mid);
 }
 
 #typing {
@@ -166,7 +168,7 @@ body {
   padding: 15px;
   border-radius: 15px;
   text-align: center;
-  border: 2px solid rgba(0,0,0,0.05);
+  border: 1px solid rgba(255,255,255,0.08);
   transition: 0.25s;
 }
 
@@ -180,7 +182,7 @@ body {
 .card h3 {
   font-size: 16px;
   margin: 5px 0;
-  color: var(--blue-dark);
+  color: var(--orange);
 }
 
 .card button {
@@ -191,6 +193,7 @@ body {
   font-size: 13px;
   font-weight: 600;
   cursor: pointer;
+  color: #000;
 }
 
 /* --------------------------------------------------
@@ -220,7 +223,7 @@ body {
   max-width: 380px;
 }
 .file-item {
-  background: var(--card-bg);
+  background: rgba(0,0,0,0.15);
   border: 1px solid var(--blue-mid);
   padding: 10px;
   border-radius: 8px;
@@ -235,6 +238,7 @@ body {
   border-radius: 8px;
   border: none;
   cursor: pointer;
+  color: #000;
 }
 
 /* --------------------------------------------------
@@ -250,7 +254,7 @@ body {
   border-radius: 50%;
   cursor: pointer;
   font-size: 22px;
-  box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+  box-shadow: 0 4px 15px rgba(0,0,0,0.35);
   z-index: 999;
   transition: 0.3s;
 }
@@ -302,10 +306,11 @@ body {
   width: fit-content;
   max-width: 78%;
   font-size: 14px;
+  white-space: pre-line;
 }
 
 .user { background: var(--blue-mid); color: white; margin-left: auto; }
-.ai { background: white; border: 1px solid var(--blue-mid); }
+.ai { background: rgba(0,0,0,0.15); border: 1px solid var(--blue-mid); }
 
 #aiInputArea {
   display: flex;
@@ -318,6 +323,8 @@ body {
   border: 1px solid var(--blue-mid);
   padding: 7px 10px;
   border-radius: 10px;
+  background: transparent;
+  color: var(--text);
 }
 
 #aiSend {
@@ -339,6 +346,7 @@ body {
   background: var(--card-bg);
   border-top: 2px solid var(--orange);
   font-size: 14px;
+  margin-top: 20px;
 }
 </style>
 </head>
@@ -359,7 +367,7 @@ body {
     <i class="fa-brands fa-youtube" onclick="openLink('https://youtube.com/@a_poly_student')"></i>
     <i class="fa-brands fa-instagram" onclick="openLink('https://www.instagram.com/a_poly_student._/')"></i>
     <i class="fa-solid fa-globe" onclick="openLink('http://afkar.curiosityweekends.org/')"></i>
-    <i class="fa-solid fa-moon dark-toggle" onclick="toggleDark()"></i>
+    <i class="fa-solid fa-circle-half-stroke" onclick="toggleTheme()"></i>
   </div>
 </div>
 
@@ -471,11 +479,21 @@ body {
 <!-- JAVASCRIPT -->
 <script>
 
+/* ---------- Theme ---------- */
+if (!localStorage.themeMode) {
+  // default dark
+  document.body.classList.remove('light');
+} else if (localStorage.themeMode === 'light') {
+  document.body.classList.add('light');
+}
+
+function toggleTheme(){
+  document.body.classList.toggle('light');
+  localStorage.themeMode = document.body.classList.contains('light') ? 'light' : 'dark';
+}
+
 /* Open links */
 function openLink(url){ window.open(url, "_blank"); }
-
-/* Dark mode */
-function toggleDark(){ document.body.classList.toggle("dark"); }
 
 /* Coming soon */
 function comingSoon(){ document.getElementById("popup").classList.add("active"); }
@@ -546,93 +564,6 @@ function closeFilePopup(){
 
 /* ---------- OFFLINE AI ASSISTANT ---------- */
 
-function appendMessage(text, type) {
-  const div = document.createElement("div");
-  div.className = `msg ${type}`;
-  div.innerText = text;
-  aiMessages.appendChild(div);
-  aiMessages.scrollTop = aiMessages.scrollHeight;
-}
-
-/* Simple offline brain */
-function offlineBrain(question) {
-  const q = question.toLowerCase();
-
-  // Motivation
-  if (q.includes("motivation") || q.includes("lazy") || q.includes("tired") || q.includes("sad") || q.includes("demotivated")) {
-    return "Small steps daily. Try 25 minutes study + 5 minutes break. Even 1 focused hour today is a big win 🔥";
-  }
-
-  if (q.includes("study") || q.includes("focus") || q.includes("concentrate") || q.includes("time table")) {
-    return "Pick 2 subjects per day. Do 4 cycles of 25 min study + 5 min break. Revise at night what you learned. Keep your phone away during the 25 minutes.";
-  }
-
-  if (q.includes("exam") || q.includes("test") || q.includes("marks")) {
-    return "For exams: learn definitions + formulas first, then practice previous year questions. Write and learn, don’t just read. Sleep well before exam day 😴📚.";
-  }
-
-  // Physics
-  if (q.includes("ohm")) {
-    return "Ohm’s Law: V = I × R. Voltage is directly proportional to current for a conductor at constant temperature. V in volts, I in ampere, R in ohms.";
-  }
-
-  if (q.includes("newton") && q.includes("law")) {
-    return "Newton's Laws: 1) Inertia. 2) F = m × a. 3) Every action has an equal and opposite reaction.";
-  }
-
-  if (q.includes("work") && q.includes("energy")) {
-    return "Work = F × d × cosθ. Energy = capacity to do work. Kinetic energy = ½mv², Potential energy = mgh (all in Joules).";
-  }
-
-  if (q.includes("motion") || q.includes("kinematics")) {
-    return "Equations of motion: 1) v = u + at  2) s = ut + ½at²  3) v² = u² + 2as.";
-  }
-
-  // Maths
-  if (q.includes("trigo") || q.includes("trigonometry") || q.includes("sin") || q.includes("cos") || q.includes("tan")) {
-    return "Important trig: sin0=0, sin30=1/2, sin45=1/√2, sin60=√3/2, sin90=1. cos0=1, cos30=√3/2, cos45=1/√2, cos60=1/2, cos90=0. tanθ = sinθ/cosθ.";
-  }
-
-  if (q.includes("integration") || q.includes("integrate")) {
-    return "Basic integrals: ∫x dx = x²/2 + C, ∫xⁿ dx = xⁿ⁺¹/(n+1) (n≠-1), ∫1/x dx = ln|x| + C, ∫eˣ dx = eˣ + C.";
-  }
-
-  if (q.includes("derivative") || q.includes("differentiation")) {
-    return "Basic derivatives: d/dx (xⁿ) = n xⁿ⁻¹, d/dx (sin x) = cos x, d/dx (cos x) = -sin x, d/dx (eˣ) = eˣ, d/dx (ln x) = 1/x.";
-  }
-
-  // Chemistry
-  if (q.includes("acid") || q.includes("base") || q.includes("salt")) {
-    return "Acids: pH < 7, sour, turn blue litmus red. Bases: pH > 7, bitter, soapy, turn red litmus blue. Acid + Base → Salt + Water.";
-  }
-
-  if (q.includes("periodic table") || q.includes("periodic")) {
-    return "Periodic table is arranged by increasing atomic number. Groups = vertical columns (similar properties). Periods = horizontal rows.";
-  }
-
-  if (q.includes("ionic") || q.includes("covalent")) {
-    return "Ionic bond: transfer of electrons (metal + non-metal). Covalent bond: sharing of electrons (usually non-metal + non-metal).";
-  }
-
-  // Programming / IT
-  if (q.includes("programming") || q.includes("coding") || q.includes("c language") || q.includes("python")) {
-    return "Focus on basics: variables, conditions, loops, arrays, functions. Practice small programs daily (patterns, sums, simple calculators).";
-  }
-
-  // Default
-  return "I’m an offline assistant, so I don’t know everything 😅. Try breaking the topic into small parts, write short notes, and practice questions. You can also request a video on this in your YouTube comments!";
-}
-
-function handleAI() {
-  const q = aiInput.value.trim();
-  if (!q) return;
-  appendMessage(q, "user");
-  const answer = offlineBrain(q);
-  appendMessage(answer, "ai");
-  aiInput.value = "";
-}
-
-/* AI elements + events */
 const aiBtn = document.getElementById("aiButton");
 const aiPopup = document.getElementById("aiPopup");
 const aiClose = document.getElementById("aiClose");
@@ -648,6 +579,119 @@ aiBtn.onclick = () => {
 };
 
 aiClose.onclick = () => aiPopup.style.display = "none";
+
+function appendMessage(text, type) {
+  const div = document.createElement("div");
+  div.className = `msg ${type}`;
+  div.innerText = text;
+  aiMessages.appendChild(div);
+  aiMessages.scrollTop = aiMessages.scrollHeight;
+}
+
+/* Improved offline brain */
+function offlineBrain(question) {
+  const q = question.toLowerCase().trim();
+
+  /* ---------- PRIORITY: derivatives & integrals ---------- */
+
+  // derivatives
+  if (q.includes("derivative") || q.includes("differentiate") || q.includes("d/dx")) {
+
+    if (q.includes("sin")) return "d/dx (sin x) = cos x";
+    if (q.includes("cos")) return "d/dx (cos x) = -sin x";
+    if (q.includes("tan")) return "d/dx (tan x) = sec²x";
+
+    if (q.includes("x^2") || q.includes("x2")) return "d/dx (x²) = 2x";
+    if (q.includes("x^3") || q.includes("x3")) return "d/dx (x³) = 3x²";
+
+    return "General rule: d/dx (xⁿ) = n·xⁿ⁻¹, d/dx(eˣ) = eˣ, d/dx(ln x) = 1/x.";
+  }
+
+  // integrals
+  if (q.includes("integral") || q.includes("integration") || q.includes("∫")) {
+
+    if (q.includes("x^2") || q.includes("x2")) return "∫x² dx = x³/3 + C";
+    if (q.includes("x")) return "∫x dx = x²/2 + C";
+    if (q.includes("1/x")) return "∫1/x dx = ln|x| + C";
+
+    return "Basic integrals:\n∫xⁿ dx = xⁿ⁺¹/(n+1) + C (n≠-1)\n∫1/x dx = ln|x| + C\n∫eˣ dx = eˣ + C.";
+  }
+
+  /* ---------- TRIGONOMETRY ---------- */
+  if (
+    q.includes("trigo") ||
+    q.includes("trigonometry") ||
+    ((q.includes("sin") || q.includes("cos") || q.includes("tan")) && !q.includes("derivative"))
+  ) {
+    return "Important trig values:\n\n" +
+           "sin0=0, sin30=1/2, sin45=1/√2, sin60=√3/2, sin90=1.\n" +
+           "cos0=1, cos30=√3/2, cos45=1/√2, cos60=1/2, cos90=0.\n" +
+           "tanθ = sinθ / cosθ.";
+  }
+
+  /* ---------- MOTIVATION ---------- */
+  if (q.includes("motivation") || q.includes("lazy") || q.includes("tired") || q.includes("sad") || q.includes("demotivated")) {
+    return "You don’t need to be perfect, just consistent. Study 25 minutes, break 5 minutes. Even 1 focused hour today is a big win 🔥";
+  }
+
+  /* ---------- STUDY TIPS / EXAMS ---------- */
+  if (q.includes("study") || q.includes("focus") || q.includes("concentrate") || q.includes("time table")) {
+    return "Simple plan:\n1) Pick 2 subjects per day.\n2) Use 25 min study + 5 min break (Pomodoro) x 4 rounds.\n3) Night: revise what you studied.\n4) Keep phone away during the 25 minutes.";
+  }
+
+  if (q.includes("exam") || q.includes("test") || q.includes("marks")) {
+    return "Exam tips:\n• Learn definitions + formulas first.\n• Practice previous year questions.\n• Write and learn, don’t just read.\n• Sleep well before exam day, avoid last-minute full-night study.";
+  }
+
+  /* ---------- PHYSICS ---------- */
+  if (q.includes("ohm")) {
+    return "Ohm’s Law: V = I × R.\nVoltage (V) is directly proportional to current (I) for a conductor at constant temperature. R is resistance in ohms (Ω).";
+  }
+
+  if (q.includes("newton") && q.includes("law")) {
+    return "Newton's Laws:\n1️⃣ First law (Inertia): A body continues in its state of rest or uniform motion unless acted upon by a net external force.\n2️⃣ Second law: F = m·a.\n3️⃣ Third law: For every action, there is an equal and opposite reaction.";
+  }
+
+  if (q.includes("motion") || q.includes("kinematics")) {
+    return "Equations of motion (constant acceleration):\n1) v = u + at\n2) s = ut + ½at²\n3) v² = u² + 2as\nWhere u = initial velocity, v = final velocity, a = acceleration, s = displacement, t = time.";
+  }
+
+  if (q.includes("work") && q.includes("energy")) {
+    return "Work = F·d·cosθ (Joules).\nEnergy = capacity to do work.\nKinetic energy = ½mv²\nPotential energy = mgh.";
+  }
+
+  /* ---------- CHEMISTRY ---------- */
+  if (q.includes("acid") || q.includes("base") || q.includes("salt")) {
+    return "Acids: sour, pH < 7, turn blue litmus red.\nBases: bitter, slippery, pH > 7, turn red litmus blue.\nAcid + Base → Salt + Water (neutralisation).";
+  }
+
+  if (q.includes("periodic")) {
+    return "Periodic table: elements arranged in increasing atomic number.\nGroups = vertical columns (similar properties).\nPeriods = horizontal rows.";
+  }
+
+  if (q.includes("ionic") || q.includes("covalent") || q.includes("bond")) {
+    return "Ionic bond: transfer of electrons (metal + non-metal), forms ions.\nCovalent bond: sharing of electrons (usually non-metals).";
+  }
+
+  /* ---------- PROGRAMMING / IT ---------- */
+  if (q.includes("programming") || q.includes("coding") || q.includes("c language") || q.includes("python")) {
+    return "Programming basics:\n1) Learn variables & data types\n2) If/else and loops\n3) Functions\n4) Arrays/strings\nPractice small problems daily instead of just reading theory.";
+  }
+
+  /* ---------- DEFAULT ---------- */
+  return "I'm your offline assistant 🤖.\nI know basic physics, chemistry, maths, programming, motivation and study tips.\nTry asking in simple words like:\n• “Ohm’s law?”\n• “derivative of sin x”\n• “trigo basics”\n• “exam tips”\n• “periodic table explanation”.";
+}
+
+/* Handle AI send */
+function handleAI() {
+  const q = aiInput.value.trim();
+  if (!q) return;
+  appendMessage(q, "user");
+  const answer = offlineBrain(q);
+  appendMessage(answer, "ai");
+  aiInput.value = "";
+}
+
 aiSend.onclick = handleAI;
 aiInput.addEventListener("keypress", e => { if (e.key === "Enter") handleAI(); });
 
@@ -655,4 +699,3 @@ aiInput.addEventListener("keypress", e => { if (e.key === "Enter") handleAI(); }
 
 </body>
 </html>
-
