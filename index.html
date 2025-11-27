@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>A Poly Student</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+<style>
+
+/* --------------------------------------------------
+   LOGO COLORS FROM YOUR IMAGE
+-------------------------------------------------- */
+:root {
+  --blue-dark: #0E3A5D;
+  --blue-mid:  #2E86C1;
+  --orange:    #F2A027;
+  --orange-light: #FFC66B;
+  --bg: #F4F8FB;
+  --text: #0B0E13;
+  --card-bg: rgba(255,255,255,0.75);
+  --glass-border: rgba(255,255,255,0.35);
+}
+
+.dark {
+  --bg: #0A0F18;
+  --text: #E8E8E8;
+  --card-bg: rgba(14,25,40,0.6);
+  --glass-border: rgba(255,255,255,0.08);
+}
+
+/* --------------------------------------------------
+   GLOBAL
+-------------------------------------------------- */
+body {
+  background: var(--bg);
+  margin: 0;
+  font-family: "Poppins", sans-serif;
+  color: var(--text);
+  transition: 0.3s ease;
+}
+
+img { user-select: none; }
+
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-thumb { background: var(--orange); border-radius: 10px; }
+
+/* --------------------------------------------------
+   NAVBAR
+-------------------------------------------------- */
+.navbar {
+  position: fixed;
+  width: 100%;
+  top: 0;
+  padding: 12px 25px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: var(--card-bg);
+  backdrop-filter: blur(15px);
+  border-bottom: 2px solid var(--orange);
+  z-index: 50;
+}
+
+.nav-left {
+  display: flex;
+  align-items: center;
+}
+
+.logo {
+  height: 65px;
+  width: 65px;
+  border-radius: 50%;
+  object-fit: cover;
+  background: white;
+  padding: 3px;
+}
+
+.brand {
+  display: flex;
+  flex-direction: column;
+  margin-left: 12px;
+  line-height: 1.1;
+}
+
+.brand-main {
+  font-size: 24px;
+  font-weight: 800;
+  color: var(--blue-dark);
+}
+
+.brand-sub {
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--blue-mid);
+}
+
+.nav-right {
+  display: flex;
+  align-items: center;
+  gap: 22px;
+}
+
+.nav-right a {
+  text-decoration: none;
+  font-weight: 600;
+  color: var(--blue-mid);
+  font-size: 16px;
+}
+
+.nav-right a:hover {
+  color: var(--orange);
+}
+
+/* DARK MODE BUTTON */
+.dark-toggle {
+  padding: 8px 12px;
+  border-radius: 30px;
+  border: none;
+  background: var(--blue-mid);
+  color: white;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.dark-toggle:hover { background: var(--blue-dark); }
+
+/* --------------------------------------------------
+   HERO SECTION
+-------------------------------------------------- */
+.hero {
+  text-align: center;
+  padding-top: 130px;
+  padding-bottom: 40px;
+  position: relative;
+}
+
+.hero-title {
+  font-size: 48px;
+  font-weight: 900;
+  color: var(--blue-dark);
+}
+
+#typing {
+  border-right: 3px solid var(--orange);
+  animation: blink .8s infinite;
+}
+
+@keyframes blink { 50% { border-color: transparent; } }
+
+.hero-sub {
+  font-size: 18px;
+  color: var(--blue-mid);
+  opacity: 0.9;
+}
+
+/* --------------------------------------------------
+   SEMESTER BUTTONS
+-------------------------------------------------- */
+.sem-container {
+  margin: 20px auto;
+  text-align: center;
+}
+
+.sem-btn {
+  background: var(--blue-mid);
+  border: none;
+  padding: 10px 20px;
+  color: white;
+  border-radius: 25px;
+  margin: 5px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.sem-btn.active {
+  background: var(--orange);
+  color: black;
+}
+
+/* --------------------------------------------------
+   SUBJECT CARDS
+-------------------------------------------------- */
+.subjects {
+  padding: 30px;
+  display: grid;
+  gap: 22px;
+  grid-template-columns: repeat(auto-fit,minmax(260px,1fr));
+}
+
+.card {
+  background: var(--card-bg);
+  border: 2px solid var(--glass-border);
+  backdrop-filter: blur(20px);
+  border-radius: 18px;
+  text-align: center;
+  padding: 25px;
+  box-shadow: 0 10px 25px rgba(14,58,93,0.15);
+  transition: 0.25s;
+}
+
+.card:hover {
+  transform: translateY(-7px);
+  box-shadow: 0 12px 30px rgba(14,58,93,0.25);
+}
+
+.card i {
+  font-size: 30px;
+  color: var(--blue-mid);
+  margin-bottom: 10px;
+}
+
+.card h3 {
+  margin-top: 0;
+  color: var(--blue-dark);
+}
+
+.card button {
+  margin-top: 12px;
+  background: var(--orange);
+  border: none;
+  padding: 10px 20px;
+  color: black;
+  border-radius: 25px;
+  cursor: pointer;
+  font-weight: 700;
+}
+
+/* --------------------------------------------------
+   POPUP (COMING SOON)
+-------------------------------------------------- */
+.popup {
+  position: fixed;
+  top: 50%; left: 50%;
+  transform: translate(-50%,-50%) scale(0);
+  opacity: 0;
+  background: var(--card-bg);
+  padding: 30px 45px;
+  border-radius: 18px;
+  border: 2px solid var(--orange);
+  backdrop-filter: blur(20px);
+  box-shadow: 0 8px 30px rgba(0,0,0,0.3);
+  transition: 0.25s ease;
+}
+
+.popup.active {
+  transform: translate(-50%,-50%) scale(1);
+  opacity: 1;
+}
+
+.popup button {
+  padding: 8px 20px;
+  border: none;
+  background: var(--blue-mid);
+  color: white;
+  border-radius: 20px;
+  cursor: pointer;
+}
+
+/* --------------------------------------------------
+   FOOTER
+-------------------------------------------------- */
+.footer {
+  text-align: center;
+  padding: 25px;
+  margin-top: 40px;
+  background: var(--card-bg);
+  border-top: 2px solid var(--orange);
+}
+
+.footer i {
+  font-size: 20px;
+  margin: 0 10px;
+  color: var(--blue-mid);
+}
+
+.footer i:hover { color: var(--orange); }
+
+</style>
+</head>
+
+<body>
+
+<!-- NAVBAR -->
+<div class="navbar">
+  <div class="nav-left">
+    <img src="logo.png" class="logo">
+    <div class="brand">
+      <span class="brand-main">A Poly</span>
+      <span class="brand-sub">Student</span>
+    </div>
+  </div>
+
+  <div class="nav-right">
+    <a href="http://afkar.curiosityweekends.org/">Portfolio</a>
+    <a href="https://youtube.com/@a_poly_student?si=XjTkWhVsm9XlHMOQ">YouTube</a>
+    <a href="https://www.instagram.com/a_poly_student._?igsh=MXZyZzZhNjhlbmR3cw==">Instagram</a>
+    <button class="dark-toggle" onclick="toggleDark()">🌙</button>
+  </div>
+</div>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-title"><span id="typing"></span></div>
+  <div class="hero-sub">Engineering Notes • Polytechnic Resources • Study Materials</div>
+</div>
+
+<!-- SEM BUTTONS -->
+<div class="sem-container">
+  <button class="sem-btn active">S1</button>
+  <button class="sem-btn" onclick="comingSoon()">S2</button>
+  <button class="sem-btn" onclick="comingSoon()">S3</button>
+  <button class="sem-btn" onclick="comingSoon()">S4</button>
+  <button class="sem-btn" onclick="comingSoon()">S5</button>
+  <button class="sem-btn" onclick="comingSoon()">S6</button>
+</div>
+
+<!-- SUBJECTS -->
+<div class="subjects">
+
+  <div class="card">
+    <i class="fas fa-atom"></i>
+    <h3>Physics</h3>
+    <button onclick="downloadFile('physics.zip')">Download</button>
+  </div>
+
+  <div class="card">
+    <i class="fas fa-flask"></i>
+    <h3>Chemistry</h3>
+    <button onclick="downloadFile('chemistry.zip')">Download</button>
+  </div>
+
+  <div class="card">
+    <i class="fas fa-square-root-alt"></i>
+    <h3>Mathematics</h3>
+    <button onclick="downloadFile('maths.zip')">Download</button>
+  </div>
+
+  <div class="card">
+    <i class="fas fa-tools"></i>
+    <h3>Workshop</h3>
+    <button onclick="downloadFile('workshop.zip')">Download</button>
+  </div>
+
+  <div class="card">
+    <i class="fas fa-book"></i>
+    <h3>English</h3>
+    <button onclick="downloadFile('english.zip')">Download</button>
+  </div>
+
+  <div class="card">
+    <i class="fas fa-vial"></i>
+    <h3>Physics Lab</h3>
+    <button onclick="downloadFile('physicslab.zip')">Download</button>
+  </div>
+
+  <div class="card">
+    <i class="fas fa-vials"></i>
+    <h3>Chemistry Lab</h3>
+    <button onclick="downloadFile('chemistrylab.zip')">Download</button>
+  </div>
+
+  <div class="card">
+    <i class="fas fa-desktop"></i>
+    <h3>IT Systems Lab</h3>
+    <button onclick="downloadFile('itlab.zip')">Download</button>
+  </div>
+
+</div>
+
+<!-- POPUP -->
+<div class="popup" id="popup">
+  <h2 style="margin:0;color:var(--blue-dark);">Coming Soon ⚙️</h2>
+  <p style="opacity:0.8;">Materials for this semester are being prepared.</p>
+  <button onclick="closePopup()">OK</button>
+</div>
+
+<!-- FOOTER -->
+<div class="footer">
+  <p>© 2025 A Poly Student • All Rights Reserved</p>
+  <div>
+    <a href="http://afkar.curiosityweekends.org/"><i class="fas fa-globe"></i></a>
+    <a href="https://youtube.com/@a_poly_student"><i class="fab fa-youtube"></i></a>
+    <a href="https://www.instagram.com/a_poly_student._/"><i class="fab fa-instagram"></i></a>
+  </div>
+</div>
+
+<!-- JAVASCRIPT -->
+<script>
+
+/* CHECK FILE EXISTENCE BEFORE DOWNLOAD */
+function downloadFile(name) {
+    fetch("files/" + name, { method: "HEAD" })
+    .then(res => {
+        if (res.ok) {
+            window.location.href = "files/" + name;
+        } else {
+            comingSoon();
+        }
+    })
+    .catch(() => comingSoon());
+}
+
+/* DARK MODE */
+function toggleDark(){
+  document.body.classList.toggle("dark");
+  localStorage.theme = document.body.classList.contains("dark") ? "dark" : "light";
+}
+if(localStorage.theme === "dark"){ document.body.classList.add("dark"); }
+
+/* POPUP */
+function comingSoon(){ document.getElementById("popup").classList.add("active"); }
+function closePopup(){ document.getElementById("popup").classList.remove("active"); }
+
+/* TYPING EFFECT */
+const text = "A Poly Student";
+let i = 0;
+function typeEffect(){
+  if(i < text.length){
+    document.getElementById("typing").innerHTML += text.charAt(i);
+    i++;
+    setTimeout(typeEffect, 70);
+  }
+}
+typeEffect();
+
+</script>
+
+</body>
+</html>
