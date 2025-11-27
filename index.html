@@ -11,7 +11,7 @@
 <style>
 
 /* --------------------------------------------------
-   COLOR THEME (MATCHES LOGO)
+   COLOR THEME (MATCHES YOUR LOGO)
 -------------------------------------------------- */
 :root {
   --blue-dark: #0E3A5D;
@@ -86,7 +86,6 @@ body {
   color: var(--blue-mid);
 }
 
-/* icons */
 .nav-icons {
   display: flex;
   align-items: center;
@@ -99,10 +98,7 @@ body {
   cursor: pointer;
   transition: 0.2s;
 }
-
-.nav-icons i:hover {
-  color: var(--orange);
-}
+.nav-icons i:hover { color: var(--orange); }
 
 /* --------------------------------------------------
    HERO
@@ -131,7 +127,7 @@ body {
 }
 
 /* --------------------------------------------------
-   SEM BUTTONS
+   SEMESTERS
 -------------------------------------------------- */
 .sem-container {
   display: flex;
@@ -150,7 +146,6 @@ body {
   font-size: 14px;
   font-weight: 600;
 }
-
 .sem-btn.active {
   background: var(--orange);
   color: black;
@@ -214,18 +209,16 @@ body {
   transition: 0.25s ease;
   z-index: 300;
 }
-
 .popup.active {
   transform: translate(-50%,-50%) scale(1);
   opacity: 1;
 }
 
-/* file popup */
+/* View files popup */
 #filePopup {
   width: 90%;
-  max-width: 400px;
+  max-width: 380px;
 }
-
 .file-item {
   background: var(--card-bg);
   border: 1px solid var(--blue-mid);
@@ -236,12 +229,104 @@ body {
   justify-content: space-between;
   align-items: center;
 }
-
 .file-item button {
   background: var(--orange);
   padding: 6px 12px;
   border-radius: 8px;
   border: none;
+  cursor: pointer;
+}
+
+/* --------------------------------------------------
+   AI ASSISTANT UI (OFFLINE)
+-------------------------------------------------- */
+#aiButton {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background: var(--orange);
+  color: black;
+  padding: 13px;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 22px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+  z-index: 999;
+  transition: 0.3s;
+}
+#aiButton:hover { transform: scale(1.12); }
+
+#aiPopup {
+  position: fixed;
+  bottom: 90px;
+  right: 20px;
+  width: 300px;
+  max-height: 420px;
+  background: var(--card-bg);
+  border: 2px solid var(--orange);
+  border-radius: 15px;
+  display: none;
+  flex-direction: column;
+  overflow: hidden;
+  z-index: 999;
+  backdrop-filter: blur(12px);
+}
+
+#aiHeader {
+  padding: 10px;
+  background: var(--orange);
+  color: black;
+  font-weight: 700;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+#aiHeader button {
+  background: none;
+  border: none;
+  font-size: 18px;
+  cursor: pointer;
+}
+
+#aiMessages {
+  padding: 10px;
+  height: 280px;
+  overflow-y: auto;
+}
+
+.msg {
+  padding: 10px;
+  border-radius: 10px;
+  margin: 8px 0;
+  width: fit-content;
+  max-width: 78%;
+  font-size: 14px;
+}
+
+.user { background: var(--blue-mid); color: white; margin-left: auto; }
+.ai { background: white; border: 1px solid var(--blue-mid); }
+
+#aiInputArea {
+  display: flex;
+  padding: 8px;
+  border-top: 1px solid var(--blue-mid);
+}
+
+#aiInput {
+  flex: 1;
+  border: 1px solid var(--blue-mid);
+  padding: 7px 10px;
+  border-radius: 10px;
+}
+
+#aiSend {
+  background: var(--blue-mid);
+  color: white;
+  padding: 7px 10px;
+  border: none;
+  border-radius: 10px;
+  margin-left: 6px;
   cursor: pointer;
 }
 
@@ -357,8 +442,25 @@ body {
 <!-- FILE VIEWER POPUP -->
 <div id="filePopup" class="popup">
   <h3 id="filePopupTitle">Files</h3>
-  <div id="fileList" style="max-height:250px; overflow-y:auto;"></div>
+  <div id="fileList" style="max-height:270px; overflow-y:auto;"></div>
   <button onclick="closeFilePopup()">Close</button>
+</div>
+
+<!-- AI ASSISTANT -->
+<div id="aiButton"><i class="fa-solid fa-robot"></i></div>
+
+<div id="aiPopup">
+  <div id="aiHeader">
+    <span>AI Notes Assistant (Offline)</span>
+    <button id="aiClose">&times;</button>
+  </div>
+
+  <div id="aiMessages"></div>
+
+  <div id="aiInputArea">
+    <input id="aiInput" type="text" placeholder="Ask doubts, formulas, tips...">
+    <button id="aiSend"><i class="fa-solid fa-paper-plane"></i></button>
+  </div>
 </div>
 
 <!-- FOOTER -->
@@ -370,24 +472,16 @@ body {
 <script>
 
 /* Open links */
-function openLink(url){
-  window.open(url, "_blank");
-}
+function openLink(url){ window.open(url, "_blank"); }
 
 /* Dark mode */
-function toggleDark(){
-  document.body.classList.toggle("dark");
-}
+function toggleDark(){ document.body.classList.toggle("dark"); }
 
-/* Coming soon popup */
-function comingSoon(){
-  document.getElementById("popup").classList.add("active");
-}
-function closePopup(){
-  document.getElementById("popup").classList.remove("active");
-}
+/* Coming soon */
+function comingSoon(){ document.getElementById("popup").classList.add("active"); }
+function closePopup(){ document.getElementById("popup").classList.remove("active"); }
 
-/* Typing effect */
+/* Typing Effect */
 const messages = [
   "A Poly Student",
   "Welcome to Your Study Hub",
@@ -407,30 +501,22 @@ function typeEffect() {
 
   if (!isDeleting) {
     el.innerHTML = text.substring(0, charIndex++);
-    if (charIndex > text.length) {
-      isDeleting = true;
-      setTimeout(typeEffect, 1200);
-      return;
-    }
+    if (charIndex > text.length) { isDeleting = true; setTimeout(typeEffect, 1200); return; }
   } else {
     el.innerHTML = text.substring(0, charIndex--);
-    if (charIndex < 0) {
-      isDeleting = false;
-      msgIndex = (msgIndex + 1) % messages.length;
-    }
+    if (charIndex < 0) { isDeleting = false; msgIndex = (msgIndex + 1) % messages.length; }
   }
 
   setTimeout(typeEffect, isDeleting ? 50 : 80);
 }
 typeEffect();
 
-/* File Viewer */
+/* View Files Popup */
 function openFileViewer(subject){
   fetch(`files/${subject}/files.json`)
     .then(res => res.json())
     .then(data => {
-
-      document.getElementById("filePopupTitle").innerHTML =
+      document.getElementById("filePopupTitle").innerText =
         subject.charAt(0).toUpperCase() + subject.slice(1);
 
       const list = document.getElementById("fileList");
@@ -446,7 +532,6 @@ function openFileViewer(subject){
       });
 
       document.getElementById("filePopup").classList.add("active");
-
     })
     .catch(() => comingSoon());
 }
@@ -458,6 +543,113 @@ function downloadSubjectFile(subject, file){
 function closeFilePopup(){
   document.getElementById("filePopup").classList.remove("active");
 }
+
+/* ---------- OFFLINE AI ASSISTANT ---------- */
+
+function appendMessage(text, type) {
+  const div = document.createElement("div");
+  div.className = `msg ${type}`;
+  div.innerText = text;
+  aiMessages.appendChild(div);
+  aiMessages.scrollTop = aiMessages.scrollHeight;
+}
+
+/* Simple offline brain */
+function offlineBrain(question) {
+  const q = question.toLowerCase();
+
+  // Motivation
+  if (q.includes("motivation") || q.includes("lazy") || q.includes("tired") || q.includes("sad") || q.includes("demotivated")) {
+    return "Small steps daily. Try 25 minutes study + 5 minutes break. Even 1 focused hour today is a big win 🔥";
+  }
+
+  if (q.includes("study") || q.includes("focus") || q.includes("concentrate") || q.includes("time table")) {
+    return "Pick 2 subjects per day. Do 4 cycles of 25 min study + 5 min break. Revise at night what you learned. Keep your phone away during the 25 minutes.";
+  }
+
+  if (q.includes("exam") || q.includes("test") || q.includes("marks")) {
+    return "For exams: learn definitions + formulas first, then practice previous year questions. Write and learn, don’t just read. Sleep well before exam day 😴📚.";
+  }
+
+  // Physics
+  if (q.includes("ohm")) {
+    return "Ohm’s Law: V = I × R. Voltage is directly proportional to current for a conductor at constant temperature. V in volts, I in ampere, R in ohms.";
+  }
+
+  if (q.includes("newton") && q.includes("law")) {
+    return "Newton's Laws: 1) Inertia. 2) F = m × a. 3) Every action has an equal and opposite reaction.";
+  }
+
+  if (q.includes("work") && q.includes("energy")) {
+    return "Work = F × d × cosθ. Energy = capacity to do work. Kinetic energy = ½mv², Potential energy = mgh (all in Joules).";
+  }
+
+  if (q.includes("motion") || q.includes("kinematics")) {
+    return "Equations of motion: 1) v = u + at  2) s = ut + ½at²  3) v² = u² + 2as.";
+  }
+
+  // Maths
+  if (q.includes("trigo") || q.includes("trigonometry") || q.includes("sin") || q.includes("cos") || q.includes("tan")) {
+    return "Important trig: sin0=0, sin30=1/2, sin45=1/√2, sin60=√3/2, sin90=1. cos0=1, cos30=√3/2, cos45=1/√2, cos60=1/2, cos90=0. tanθ = sinθ/cosθ.";
+  }
+
+  if (q.includes("integration") || q.includes("integrate")) {
+    return "Basic integrals: ∫x dx = x²/2 + C, ∫xⁿ dx = xⁿ⁺¹/(n+1) (n≠-1), ∫1/x dx = ln|x| + C, ∫eˣ dx = eˣ + C.";
+  }
+
+  if (q.includes("derivative") || q.includes("differentiation")) {
+    return "Basic derivatives: d/dx (xⁿ) = n xⁿ⁻¹, d/dx (sin x) = cos x, d/dx (cos x) = -sin x, d/dx (eˣ) = eˣ, d/dx (ln x) = 1/x.";
+  }
+
+  // Chemistry
+  if (q.includes("acid") || q.includes("base") || q.includes("salt")) {
+    return "Acids: pH < 7, sour, turn blue litmus red. Bases: pH > 7, bitter, soapy, turn red litmus blue. Acid + Base → Salt + Water.";
+  }
+
+  if (q.includes("periodic table") || q.includes("periodic")) {
+    return "Periodic table is arranged by increasing atomic number. Groups = vertical columns (similar properties). Periods = horizontal rows.";
+  }
+
+  if (q.includes("ionic") || q.includes("covalent")) {
+    return "Ionic bond: transfer of electrons (metal + non-metal). Covalent bond: sharing of electrons (usually non-metal + non-metal).";
+  }
+
+  // Programming / IT
+  if (q.includes("programming") || q.includes("coding") || q.includes("c language") || q.includes("python")) {
+    return "Focus on basics: variables, conditions, loops, arrays, functions. Practice small programs daily (patterns, sums, simple calculators).";
+  }
+
+  // Default
+  return "I’m an offline assistant, so I don’t know everything 😅. Try breaking the topic into small parts, write short notes, and practice questions. You can also request a video on this in your YouTube comments!";
+}
+
+function handleAI() {
+  const q = aiInput.value.trim();
+  if (!q) return;
+  appendMessage(q, "user");
+  const answer = offlineBrain(q);
+  appendMessage(answer, "ai");
+  aiInput.value = "";
+}
+
+/* AI elements + events */
+const aiBtn = document.getElementById("aiButton");
+const aiPopup = document.getElementById("aiPopup");
+const aiClose = document.getElementById("aiClose");
+const aiSend = document.getElementById("aiSend");
+const aiMessages = document.getElementById("aiMessages");
+const aiInput = document.getElementById("aiInput");
+
+aiBtn.onclick = () => {
+  aiPopup.style.display = "flex";
+  if (!aiMessages.hasChildNodes()) {
+    appendMessage("Hi, I'm your offline notes assistant. Ask me about physics, maths, chemistry, exams or motivation! ✨", "ai");
+  }
+};
+
+aiClose.onclick = () => aiPopup.style.display = "none";
+aiSend.onclick = handleAI;
+aiInput.addEventListener("keypress", e => { if (e.key === "Enter") handleAI(); });
 
 </script>
 
