@@ -11,13 +11,12 @@
 <style>
 
 /* --------------------------------------------------
-   COLOR THEME (MATCHED WITH YOUR LOGO)
+   COLOR THEME (MATCHES LOGO)
 -------------------------------------------------- */
 :root {
   --blue-dark: #0E3A5D;
   --blue-mid:  #2E86C1;
   --orange:    #F2A027;
-  --orange-light: #FFC66B;
   --bg: #F4F8FB;
   --text: #0B0E13;
   --card-bg: rgba(255,255,255,0.85);
@@ -29,9 +28,7 @@
   --card-bg: rgba(14,25,40,0.75);
 }
 
-/* --------------------------------------------------
-   GLOBAL
--------------------------------------------------- */
+/* GLOBAL */
 body {
   margin: 0;
   background: var(--bg);
@@ -56,7 +53,7 @@ body {
   background: var(--card-bg);
   backdrop-filter: blur(15px);
   border-bottom: 2px solid var(--orange);
-  z-index: 100;
+  z-index: 200;
 }
 
 .nav-left {
@@ -75,8 +72,6 @@ body {
 }
 
 .brand {
-  display: flex;
-  flex-direction: column;
   line-height: 1.1;
 }
 
@@ -91,7 +86,7 @@ body {
   color: var(--blue-mid);
 }
 
-/* ICON HEADER */
+/* icons */
 .nav-icons {
   display: flex;
   align-items: center;
@@ -109,14 +104,8 @@ body {
   color: var(--orange);
 }
 
-.dark-toggle {
-  font-size: 22px;
-  color: var(--orange);
-  cursor: pointer;
-}
-
 /* --------------------------------------------------
-   HERO SECTION
+   HERO
 -------------------------------------------------- */
 .hero {
   padding: 110px 20px 40px;
@@ -139,14 +128,12 @@ body {
 .hero-sub {
   margin-top: 5px;
   opacity: 0.85;
-  font-size: 16px;
 }
 
 /* --------------------------------------------------
-   SEMESTER BUTTONS
+   SEM BUTTONS
 -------------------------------------------------- */
 .sem-container {
-  margin: 10px auto 20px;
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
@@ -162,7 +149,6 @@ body {
   border: none;
   font-size: 14px;
   font-weight: 600;
-  cursor: pointer;
 }
 
 .sem-btn.active {
@@ -189,24 +175,20 @@ body {
   transition: 0.25s;
 }
 
-.card:hover {
-  transform: translateY(-5px);
-}
+.card:hover { transform: translateY(-5px); }
 
 .card i {
-  font-size: 30px;
+  font-size: 28px;
   color: var(--blue-mid);
-  margin-bottom: 6px;
 }
 
 .card h3 {
-  margin: 5px 0;
   font-size: 16px;
+  margin: 5px 0;
   color: var(--blue-dark);
 }
 
 .card button {
-  margin-top: 6px;
   background: var(--orange);
   border: none;
   padding: 7px 12px;
@@ -217,18 +199,7 @@ body {
 }
 
 /* --------------------------------------------------
-   FOOTER
--------------------------------------------------- */
-.footer {
-  text-align: center;
-  padding: 20px;
-  font-size: 14px;
-  background: var(--card-bg);
-  border-top: 2px solid var(--orange);
-}
-
-/* --------------------------------------------------
-   POPUP
+   POPUPS
 -------------------------------------------------- */
 .popup {
   position: fixed;
@@ -236,12 +207,12 @@ body {
   transform: translate(-50%,-50%) scale(0);
   opacity: 0;
   background: var(--card-bg);
-  padding: 20px 30px;
+  padding: 20px 25px;
   border-radius: 15px;
   border: 2px solid var(--orange);
-  backdrop-filter: blur(12px);
+  backdrop-filter: blur(14px);
   transition: 0.25s ease;
-  z-index: 200;
+  z-index: 300;
 }
 
 .popup.active {
@@ -249,21 +220,47 @@ body {
   opacity: 1;
 }
 
-.popup button {
-  background: var(--blue-mid);
-  border: none;
-  padding: 8px 18px;
-  border-radius: 20px;
-  color: white;
-  font-weight: 600;
+/* file popup */
+#filePopup {
+  width: 90%;
+  max-width: 400px;
 }
 
+.file-item {
+  background: var(--card-bg);
+  border: 1px solid var(--blue-mid);
+  padding: 10px;
+  border-radius: 8px;
+  margin-bottom: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.file-item button {
+  background: var(--orange);
+  padding: 6px 12px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+}
+
+/* --------------------------------------------------
+   FOOTER
+-------------------------------------------------- */
+.footer {
+  text-align: center;
+  padding: 20px;
+  background: var(--card-bg);
+  border-top: 2px solid var(--orange);
+  font-size: 14px;
+}
 </style>
 </head>
 
 <body>
 
-<!-- 🔵 NAVBAR -->
+<!-- NAVBAR -->
 <div class="navbar">
   <div class="nav-left">
     <img src="logo.png" class="logo">
@@ -281,13 +278,13 @@ body {
   </div>
 </div>
 
-<!-- 🔵 HERO -->
+<!-- HERO -->
 <div class="hero">
   <div class="hero-title"><span id="typing"></span></div>
   <div class="hero-sub">Engineering Notes • S1 Materials • Polytechnic Study Hub</div>
 </div>
 
-<!-- 🔵 SEMESTERS -->
+<!-- SEM BUTTONS -->
 <div class="sem-container">
   <button class="sem-btn active">S1</button>
   <button class="sem-btn" onclick="comingSoon()">S2</button>
@@ -297,67 +294,74 @@ body {
   <button class="sem-btn" onclick="comingSoon()">S6</button>
 </div>
 
-<!-- 🔵 SUBJECT CARDS -->
+<!-- SUBJECT CARDS -->
 <div class="subjects">
 
   <div class="card">
     <i class="fas fa-atom"></i>
     <h3>Physics</h3>
-    <button onclick="downloadFile('physics.zip')">Download</button>
+    <button onclick="openFileViewer('physics')">View</button>
   </div>
 
   <div class="card">
     <i class="fas fa-flask"></i>
     <h3>Chemistry</h3>
-    <button onclick="downloadFile('chemistry.zip')">Download</button>
+    <button onclick="openFileViewer('chemistry')">View</button>
   </div>
 
   <div class="card">
     <i class="fas fa-square-root-alt"></i>
     <h3>Mathematics</h3>
-    <button onclick="downloadFile('maths.zip')">Download</button>
+    <button onclick="openFileViewer('maths')">View</button>
   </div>
 
   <div class="card">
     <i class="fas fa-tools"></i>
     <h3>Workshop</h3>
-    <button onclick="downloadFile('workshop.zip')">Download</button>
+    <button onclick="openFileViewer('workshop')">View</button>
   </div>
 
   <div class="card">
     <i class="fas fa-book"></i>
     <h3>English</h3>
-    <button onclick="downloadFile('english.zip')">Download</button>
+    <button onclick="openFileViewer('english')">View</button>
   </div>
 
   <div class="card">
     <i class="fas fa-vial"></i>
     <h3>Physics Lab</h3>
-    <button onclick="downloadFile('physicslab.zip')">Download</button>
+    <button onclick="openFileViewer('physicslab')">View</button>
   </div>
 
   <div class="card">
     <i class="fas fa-vials"></i>
     <h3>Chemistry Lab</h3>
-    <button onclick="downloadFile('chemistrylab.zip')">Download</button>
+    <button onclick="openFileViewer('chemistrylab')">View</button>
   </div>
 
   <div class="card">
     <i class="fas fa-desktop"></i>
     <h3>IT Lab</h3>
-    <button onclick="downloadFile('itlab.zip')">Download</button>
+    <button onclick="openFileViewer('itlab')">View</button>
   </div>
 
 </div>
 
 <!-- COMING SOON POPUP -->
 <div id="popup" class="popup">
-  <h3 style="margin-top:0;">Coming Soon ⚙️</h3>
+  <h3>Coming Soon ⚙️</h3>
   <p style="opacity:0.8;">Files for this section will be uploaded soon.</p>
   <button onclick="closePopup()">OK</button>
 </div>
 
-<!-- 🔵 FOOTER -->
+<!-- FILE VIEWER POPUP -->
+<div id="filePopup" class="popup">
+  <h3 id="filePopupTitle">Files</h3>
+  <div id="fileList" style="max-height:250px; overflow-y:auto;"></div>
+  <button onclick="closeFilePopup()">Close</button>
+</div>
+
+<!-- FOOTER -->
 <div class="footer">
   © 2025 A Poly Student • All Rights Reserved
 </div>
@@ -365,7 +369,25 @@ body {
 <!-- JAVASCRIPT -->
 <script>
 
-/* Multi-line typing effect */
+/* Open links */
+function openLink(url){
+  window.open(url, "_blank");
+}
+
+/* Dark mode */
+function toggleDark(){
+  document.body.classList.toggle("dark");
+}
+
+/* Coming soon popup */
+function comingSoon(){
+  document.getElementById("popup").classList.add("active");
+}
+function closePopup(){
+  document.getElementById("popup").classList.remove("active");
+}
+
+/* Typing effect */
 const messages = [
   "A Poly Student",
   "Welcome to Your Study Hub",
@@ -402,24 +424,40 @@ function typeEffect() {
 }
 typeEffect();
 
-/* File-check + download */
-function downloadFile(name) {
-    fetch("files/" + name, { method: "HEAD" })
-    .then(res => res.ok ? window.location.href = "files/" + name : comingSoon())
+/* File Viewer */
+function openFileViewer(subject){
+  fetch(`files/${subject}/files.json`)
+    .then(res => res.json())
+    .then(data => {
+
+      document.getElementById("filePopupTitle").innerHTML =
+        subject.charAt(0).toUpperCase() + subject.slice(1);
+
+      const list = document.getElementById("fileList");
+      list.innerHTML = "";
+
+      data.files.forEach(file => {
+        list.innerHTML += `
+          <div class="file-item">
+            <span>${file}</span>
+            <button onclick="downloadSubjectFile('${subject}','${file}')">Download</button>
+          </div>
+        `;
+      });
+
+      document.getElementById("filePopup").classList.add("active");
+
+    })
     .catch(() => comingSoon());
 }
 
-/* Dark mode */
-function toggleDark(){
-  document.body.classList.toggle("dark");
+function downloadSubjectFile(subject, file){
+  window.location.href = `files/${subject}/${file}`;
 }
 
-/* Links */
-function openLink(url){ window.open(url, "_blank"); }
-
-/* Popup */
-function comingSoon(){ document.getElementById("popup").classList.add("active"); }
-function closePopup(){ document.getElementById("popup").classList.remove("active"); }
+function closeFilePopup(){
+  document.getElementById("filePopup").classList.remove("active");
+}
 
 </script>
 
